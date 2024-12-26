@@ -1,75 +1,45 @@
-[![PHP version](https://badge.fury.io/ph/solidgate%2Fphp-sdk.svg)](https://badge.fury.io/ph/solidgate%2Fphp-sdk)
+[![PHP version](https://badge.fury.io/ph/mirays%2Fsolidgae-php-sdk.svg)](https://badge.fury.io/ph/solidgate%2Fphp-sdk)
 
 # SolidGate API
 
 
-This library provides basic API options of SolidGate payment gateway.
+This library provides API options of SolidGate payment gateway.
 
 ## Installation
 
 ### With Composer
 
 ```
-$ composer require solidgate/php-sdk
+$ composer require mirays/solidgate-php-sdk
 ```
 
 ```json
 {
     "require": {
-        "solidgate/php-sdk": "~1.0"
+        "mirays/solidgate-php-sdk": "~0.1"
     }
 }
 ```
 
 ## Usage
 
+Payment Form Init Example
+
 Card-gate example
-```php
-<?php
-
-use SolidGate\API\Api;
-
-$api = new Api('YourMerchantId', 'YourPrivateKey');
-
-$response = $api->charge(['SomePaymentAttributes from API reference']);
-
-```
-
-
-Reconciliations example
 
 ```php
 <?php
 
-use SolidGate\API\Api;
+use SolidGate\API\PaymentPageApi;
+use SolidGate\API\DTO\Request\PaymentPage\InitRequest;
 
-$api = new Api('YourMerchantId', 'YourPrivateKey');
 
-$dateFrom = new \DateTime("2019-01-01 00:00:00+00:00");
-$dateTo = new \DateTime("2020-01-06 00:00:00+00:00");
+$api = new PaymentPageApi('YourMerchantId', 'YourPrivateKey');
 
-$orderIterator = $api->getUpdatedOrders($dateFrom, $dateTo);
-//$orderIterator = $api->getUpdatedChargebacks($dateFrom, $dateTo);
-//$orderIterator = $api->getUpdatedAlerts($dateFrom, $dateTo);
+$request = new InitRequest(
+    new InitRequest\SubscriptionOrderDTO('ProductId','OrderId', 'CustomerId', 'OrderDescription'),
+    new InitRequest\PageCustomizationDTO('PublicName')
+);
 
-foreach ($orderIterator as $order) {
-    // process one order
-}
-
-if ($api->getException() instanceof \Throwable) {
-    // save exception to log and retry request (if necessary)
-}
-```
-
-Form resign example
-```php
-<?php
-
-use SolidGate\API\Api;
-
-$api = new Api('YourMerchantId', 'YourPrivateKey');
-
-$response = $api->formResign(['SomePaymentAttributes from API reference']);
-
-$response->toArray(); // pass to your Frontend
+$response = $api->initPage($request);
 ```

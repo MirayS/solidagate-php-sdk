@@ -1,5 +1,5 @@
 {
-  "name": "solidgate/php-sdk",
+  "name": "mirays/solidgate-php-sdk",
   "description": "Php API SDK for SolidGate payment gateway",
   "type": "library",
   "require": {
@@ -13,6 +13,10 @@
     {
       "name": "George Younger",
       "email": "info@solidgate.com"
+    },
+    {
+      "name": "Vitali Kuzmich",
+      "email": "dev@mstech.space"
     }
   ],
   "autoload": {
